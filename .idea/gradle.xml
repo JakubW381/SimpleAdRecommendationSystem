@@ -8,9 +8,10 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/ad-service" />
-            <option value="$PROJECT_DIR$/analytics-service" />
-            <option value="$PROJECT_DIR$/mockEventService" />
+            <option value="$PROJECT_DIR$/ars-ad-service" />
+            <option value="$PROJECT_DIR$/ars-authenticator" />
+            <option value="$PROJECT_DIR$/ars-gateway" />
+            <option value="$PROJECT_DIR$/ars-user-service" />
           </set>
         </option>
         <option name="myGradleHome" value="" />

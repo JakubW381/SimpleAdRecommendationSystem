@@ -1,0 +1,30 @@
+server:
+  address: 0.0.0.0
+  port: 8082
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/user-database
+    username: admin
+    password: admin
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+    hibernate:
+      ddl-auto: update
+
+  kafka:
+    bootstrap-servers:
+      - localhost:9092
+      - localhost:9094
+      - localhost:9096
+    consumer:
+      group-id: ad-service-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages:
+          - "dev.jakubw.adapter.in.messaging.events"

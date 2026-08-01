@@ -1,4 +1,5 @@
 rootProject.name = "someDDD"
-include("ad-service")
-include("analytics-service")
-include("mockEventService")
+include("ars-ad-service")
+include("ars-user-service")
+include("ars-gateway")
+include("ars-authenticator")
