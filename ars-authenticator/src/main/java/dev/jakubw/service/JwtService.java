@@ -29,7 +29,7 @@ public class JwtService {
         Instant timestamp = Instant.now();
 
         JWTClaimsSet claims = new JWTClaimsSet.Builder()
-                .issuer("ars-token")
+                .issuer("http://localhost:8083")
                 .subject(details.getId())
                 .claim("email",details.getEmail())
                 .claim("roles",details.getAuthorities()

@@ -53,17 +53,19 @@ public class AuthDetailsEntity implements UserDetails, Persistable<String> {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return authorities.stream()
+                .map(role -> (GrantedAuthority) role::name)
+                .toList();
     }
 
     @Override
     public @Nullable String getPassword() {
-        return "";
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return "";
+        return username;
     }
 
     @Override

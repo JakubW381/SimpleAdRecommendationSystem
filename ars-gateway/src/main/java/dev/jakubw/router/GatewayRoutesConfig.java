@@ -12,18 +12,49 @@ public class GatewayRoutesConfig {
     @Bean
     public RouteLocator routing(RouteLocatorBuilder builder,
                                 JwtClaimsHeaderFilter filter) {
+
         return builder.routes()
-                .route(p -> p
+
+                // DOCS
+                .route("ad-docs", r -> r
+                        .path("/api/docs/ad/**")
+                        .filters(f -> f.rewritePath(
+                                "/api/docs/ad/(?<segment>.*)",
+                                "/${segment}"
+                        ))
+                        .uri("http://localhost:8081"))
+
+                .route("user-docs", r -> r
+                        .path("/api/docs/user/**")
+                        .filters(f -> f.rewritePath(
+                                "/api/docs/user/(?<segment>.*)",
+                                "/${segment}"
+                        ))
+                        .uri("http://localhost:8082"))
+
+                .route("auth-docs", r -> r
+                        .path("/api/docs/auth/**")
+                        .filters(f -> f.rewritePath(
+                                "/api/docs/auth/(?<segment>.*)",
+                                "/${segment}"
+                        ))
+                        .uri("http://localhost:8083"))
+
+                // API
+                .route("ad-service", r -> r
                         .path("/api/ad/**")
                         .filters(f -> f.filter(filter))
-                        .uri("http://localhost:8081")
-                ).route(p -> p
+                        .uri("http://localhost:8081"))
+
+                .route("user-service", r -> r
                         .path("/api/user/**")
                         .filters(f -> f.filter(filter))
-                        .uri("http://localhost:8082")
-                ).route(p -> p
+                        .uri("http://localhost:8082"))
+
+                .route("auth-service", r -> r
                         .path("/api/auth/**")
-                        .uri("http://localhost:8083")
-                ).build();
+                        .uri("http://localhost:8083"))
+
+                .build();
     }
 }

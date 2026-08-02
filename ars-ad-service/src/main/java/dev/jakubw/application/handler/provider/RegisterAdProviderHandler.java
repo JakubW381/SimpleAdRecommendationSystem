@@ -1,6 +1,5 @@
 package dev.jakubw.application.handler.provider;
 
-import dev.jakubw.adapter.in.rest.provider.dto.ProviderDto;
 import dev.jakubw.domain.model.AdProvider;
 import dev.jakubw.domain.port.in.provider.RegisterAdProviderCmd;
 import dev.jakubw.domain.port.out.provider.AdProviderRepositoryPort;

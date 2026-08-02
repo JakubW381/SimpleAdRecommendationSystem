@@ -4,9 +4,12 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.servers.Server;
 import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.List;
 
 @Configuration
 public class SpringDocConfig {
@@ -14,6 +17,7 @@ public class SpringDocConfig {
     @Bean
     public OpenAPI openAPI(){
         return new OpenAPI()
+                .servers(List.of(new Server().url("/")))
                 .info(new Info()
                         .title("Advertise service - API")
                         .description("api for ad service")
@@ -30,7 +34,7 @@ public class SpringDocConfig {
     public GroupedOpenApi providerGroup(){
         return GroupedOpenApi.builder()
                 .group("provider")
-                .pathsToMatch("/api/provider/**")
+                .pathsToMatch("/api/ad/provider/**")
                 .build();
     }
 
@@ -38,7 +42,15 @@ public class SpringDocConfig {
     public GroupedOpenApi adGroup(){
         return GroupedOpenApi.builder()
                 .group("ads")
-                .pathsToMatch("/api/ads/**")
+                .pathsToMatch("/api/ad/ads/**")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi impressionGroup(){
+        return GroupedOpenApi.builder()
+                .group("impression")
+                .pathsToMatch("/api/ad/impression/**")
                 .build();
     }
 }

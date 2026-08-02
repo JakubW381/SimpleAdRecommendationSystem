@@ -8,9 +8,9 @@ public class AdUser {
     private String username;
     private String email;
 
-    private Set<AdTags> tags;
+    private Set<AdTag> tags;
 
-    public AdUser(String id, String username, String email, Set<AdTags> tags) {
+    public AdUser(String id, String username, String email, Set<AdTag> tags) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -29,7 +29,7 @@ public class AdUser {
         return email;
     }
 
-    public Set<AdTags> getTags() {
+    public Set<AdTag> getTags() {
         return tags;
     }
 }

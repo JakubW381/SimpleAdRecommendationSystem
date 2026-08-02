@@ -1,7 +1,9 @@
 package dev.jakubw.controller;
 
 import dev.jakubw.dto.SignInRequest;
-import dev.jakubw.dto.SignUpRequest;
+import dev.jakubw.dto.ProviderSignUpRequest;
+import dev.jakubw.dto.UserSignUpRequest;
+import dev.jakubw.service.AuthService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -12,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/auth/user")
 @RequiredArgsConstructor
-public class AuthController {
+public class AuthUserController {
 
     private final AuthService authService;
 
@@ -29,21 +31,19 @@ public class AuthController {
     }
     @PostMapping("/register")
     public ResponseEntity<String> register(
-            @RequestBody SignUpRequest request,
+            @RequestBody UserSignUpRequest request,
             HttpServletResponse response
     ){
-        String token = authService.register(request);
+        String token = authService.registerUser(request);
         response.addCookie(createCookie(token));
         return ResponseEntity.ok("Registration successful");
     }
-
     private Cookie createCookie(String token){
-        Cookie cookie = new Cookie("SHToken", token);
+        Cookie cookie = new Cookie("ARSToken", token);
         cookie.setMaxAge(3600 * 24);
         cookie.setSecure(false);
         cookie.setHttpOnly(true);
         cookie.setPath("/");
         return cookie;
     }
-
 }

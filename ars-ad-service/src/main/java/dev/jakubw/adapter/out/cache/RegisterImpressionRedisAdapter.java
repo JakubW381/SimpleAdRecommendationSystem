@@ -8,7 +8,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 public class RegisterImpressionRedisAdapter {
 
     private final RecordImpressionCmd command;
-    private final RedisTemplate<>;
+    private final RedisTemplate<String,Object> template;
 
 
 

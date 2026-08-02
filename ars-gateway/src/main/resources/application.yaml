@@ -1,10 +1,29 @@
 server:
   port: 8080
 
+logging:
+  level:
+    org.springframework.security: TRACE
+    org.springframework.security.oauth2: TRACE
 spring:
   security:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8083
           jwk-set-uri: http://localhost:8083/.well-known/jwks.json
+
+springdoc:
+  swagger-ui:
+    urls:
+      - name: ads
+        url: /api/docs/ad/v3/api-docs/ads
+      - name: provider
+        url: /api/docs/ad/v3/api-docs/provider
+      - name: impression
+        url: /api/docs/ad/v3/api-docs/impression
+
+      - name: user
+        url: /api/docs/user/v3/api-docs/user
+
+      - name: auth
+        url: /api/docs/auth/v3/api-docs/auth

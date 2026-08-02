@@ -40,7 +40,7 @@ public class JwkConfig {
 
             return new com.nimbusds.jose.jwk.RSAKey.Builder((RSAPublicKey) pub)
                     .privateKey((RSAPrivateKey) priv)
-                    .keyID("shadowwood-auth-key")
+                    .keyID("ars-kid")
                     .build();
         }catch (Exception e){
             throw new TokenException(e.getMessage(),e.getCause());

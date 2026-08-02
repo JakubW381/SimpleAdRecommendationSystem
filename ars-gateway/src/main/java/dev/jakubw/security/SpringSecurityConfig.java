@@ -12,6 +12,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.BearerTokenAuthenticationToken;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.oauth2.server.resource.authentication.ReactiveJwtAuthenticationConverterAdapter;
 import org.springframework.security.oauth2.server.resource.web.server.authentication.ServerBearerTokenAuthenticationConverter;
 import org.springframework.security.web.server.SecurityWebFilterChain;
@@ -31,15 +32,23 @@ public class SpringSecurityConfig {
     @Bean
     public SecurityWebFilterChain springSecurity(ServerHttpSecurity http) {
         http.csrf(ServerHttpSecurity.CsrfSpec::disable)
+
                 .authorizeExchange(exchanges -> exchanges
+                        .pathMatchers(
+                                "/swagger-ui.html",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/api/docs/**"
+                        ).permitAll()
                         .pathMatchers("/api/auth/**").permitAll()
                         .pathMatchers("/api/user/**").hasRole("USER")
                         .pathMatchers("/api/ad/**").hasRole("PROVIDER")
-                        .anyExchange().authenticated()
                 )
                 .oauth2ResourceServer((oauth2) -> oauth2
                         .bearerTokenConverter(cookieBearerTokenConverter())
-                        .jwt(withDefaults())
+                        .jwt(jwt -> jwt
+                                .jwtAuthenticationConverter(grantedAuthoritiesExtractor())
+                        )
                 );
         return http.build();
     }
@@ -59,5 +68,22 @@ public class SpringSecurityConfig {
                     new BearerTokenAuthenticationToken(cookie.getValue())
             );
         };
+    }
+
+    @Bean
+    Converter<Jwt, Mono<AbstractAuthenticationToken>> grantedAuthoritiesExtractor() {
+
+        JwtGrantedAuthoritiesConverter authoritiesConverter =
+                new JwtGrantedAuthoritiesConverter();
+
+        authoritiesConverter.setAuthoritiesClaimName("roles");
+        authoritiesConverter.setAuthorityPrefix("ROLE_");
+
+        JwtAuthenticationConverter jwtConverter =
+                new JwtAuthenticationConverter();
+
+        jwtConverter.setJwtGrantedAuthoritiesConverter(authoritiesConverter);
+
+        return new ReactiveJwtAuthenticationConverterAdapter(jwtConverter);
     }
 }

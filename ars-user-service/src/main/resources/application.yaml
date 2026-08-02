@@ -3,8 +3,11 @@ server:
   port: 8082
 
 spring:
+  grpc:
+    server:
+      port: 9082
   datasource:
-    url: jdbc:postgresql://localhost:5432/user-database
+    url: jdbc:postgresql://localhost:5433/user-database
     username: admin
     password: admin
   jpa:

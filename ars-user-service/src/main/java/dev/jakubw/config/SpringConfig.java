@@ -2,6 +2,7 @@ package dev.jakubw.config;
 
 import dev.jakubw.adapter.out.persistance.AdUserPostgresAdapter;
 import dev.jakubw.adapter.out.persistance.AdUserPostgresRepository;
+import dev.jakubw.application.handler.CreateUserHandler;
 import dev.jakubw.application.handler.GetUserHandler;
 import dev.jakubw.domain.port.out.AdUserRepositoryPort;
 import org.springframework.context.annotation.Bean;
@@ -24,5 +25,12 @@ public class SpringConfig {
             AdUserRepositoryPort adUserRepositoryPort
     ){
         return new GetUserHandler(adUserRepositoryPort);
+    }
+
+    @Bean
+    public CreateUserHandler createUserHandler(
+            AdUserRepositoryPort adUserRepositoryPort
+    ){
+        return new CreateUserHandler(adUserRepositoryPort);
     }
 }

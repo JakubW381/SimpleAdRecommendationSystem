@@ -17,9 +17,8 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-gateway-server-webflux")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-security-oauth2-resource-server")
-//    implementation("io.jsonwebtoken:jjwt-impl:0.13.0")
-//    implementation("io.jsonwebtoken:jjwt-api:0.13.0")
-//    implementation("io.jsonwebtoken:jjwt-jackson:0.13.0")
+    implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:3.0.2")
+
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")

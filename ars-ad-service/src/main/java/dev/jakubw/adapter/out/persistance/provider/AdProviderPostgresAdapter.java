@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AdProviderPostgresAdapter implements AdProviderRepositoryPort {
 
     private final AdProviderPostgresRepository repository;
+
     @Override
     @Transactional
     public AdProvider registerProvider(AdProvider provider) {
@@ -30,7 +31,8 @@ public class AdProviderPostgresAdapter implements AdProviderRepositoryPort {
                         entity.getAdUrl(),
                         entity.getCampaignEnd(),
                         entity.getMaxDayCount(),
-                        entity.getStatus()
+                        entity.getStatus(),
+                        entity.getTags()
                 )).toList(),
                 saved.getCreationDate()
         );
@@ -47,13 +49,14 @@ public class AdProviderPostgresAdapter implements AdProviderRepositoryPort {
                 providerEntity.getName(),
                 providerEntity.getAds().stream().map(adEntity ->
                         new Ad(
-                            adEntity.getId(),
-                            adEntity.getName(),
-                            adEntity.getAdUrl(),
-                            adEntity.getCampaignEnd(),
-                            adEntity.getMaxDayCount(),
-                            adEntity.getStatus()
-                )).toList(),
+                                adEntity.getId(),
+                                adEntity.getName(),
+                                adEntity.getAdUrl(),
+                                adEntity.getCampaignEnd(),
+                                adEntity.getMaxDayCount(),
+                                adEntity.getStatus(),
+                                adEntity.getTags()
+                        )).toList(),
                 providerEntity.getCreationDate()
         );
         return adProvider;

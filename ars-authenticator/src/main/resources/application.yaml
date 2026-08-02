@@ -1,0 +1,21 @@
+server:
+  address: 0.0.0.0
+  port: 8083
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5434/auth-database
+    username: admin
+    password: admin
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+    hibernate:
+      ddl-auto: update
+
+jwk:
+  rsa:
+    public: ${ARS_RSA_PUBLIC_KEY}
+    private: ${ARS_RSA_PRIVATE_KEY}

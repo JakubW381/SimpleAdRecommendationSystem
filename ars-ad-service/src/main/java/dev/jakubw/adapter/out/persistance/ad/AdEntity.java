@@ -2,9 +2,8 @@ package dev.jakubw.adapter.out.persistance.ad;
 
 import dev.jakubw.adapter.out.persistance.impression.AdImpressionEntity;
 import dev.jakubw.adapter.out.persistance.provider.AdProviderEntity;
-import dev.jakubw.domain.model.AdDailyImpression;
 import dev.jakubw.domain.model.AdStatus;
-import dev.jakubw.domain.model.AdTags;
+import dev.jakubw.domain.model.AdTag;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -47,5 +46,5 @@ public class AdEntity {
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.ARRAY)
     @Column(name = "tags")
-    private Set<AdTags> tags;
+    private Set<AdTag> tags;
 }

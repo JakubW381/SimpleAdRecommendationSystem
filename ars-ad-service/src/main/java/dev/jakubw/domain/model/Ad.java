@@ -14,10 +14,10 @@ public class Ad {
     private Long maxDayCount;
     private AdStatus status;
 
-    private Set<AdTags> tags;
+    private Set<AdTag> tags;
 
 
-    public Ad(String id, String name, String adUrl,List<AdDailyImpression> impressions,LocalDate campaignEnd, Long maxDayCount, AdStatus status, Set<AdTags> tags){
+    public Ad(String id, String name, String adUrl,List<AdDailyImpression> impressions,LocalDate campaignEnd, Long maxDayCount, AdStatus status, Set<AdTag> tags){
         this.id = id;
         this.name = name;
         this.adUrl = adUrl;
@@ -34,7 +34,7 @@ public class Ad {
         this.tags = tags;
     }
 
-    public Ad(String id, String name, String adUrl, LocalDate campaignEnd, Long maxDayCount, AdStatus status, Set<AdTags> tags){
+    public Ad(String id, String name, String adUrl, LocalDate campaignEnd, Long maxDayCount, AdStatus status, Set<AdTag> tags){
         this.id = id;
         this.name = name;
         this.adUrl = adUrl;
@@ -53,5 +53,5 @@ public class Ad {
     public HashMap<LocalDate,AdDailyImpression> getImpressions() {return impressions;}
     public AdStatus getStatus() {return status;}
 
-    public Set<AdTags> getTags() {return tags;}
+    public Set<AdTag> getTags() {return tags;}
 }
