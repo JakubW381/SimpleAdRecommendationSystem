@@ -7,7 +7,6 @@ import org.springframework.kafka.config.TopicBuilder;
 
 @Configuration
 public class SpringKafkaConfig {
-
     @Bean
     NewTopic impressionTopic(){
         return TopicBuilder.name("impressions")

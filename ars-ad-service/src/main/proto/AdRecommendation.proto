@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package dev.jakubw.grpc;
+
+option java_multiple_files = true;
+option java_package = "dev.jakubw.grpc";
+
+import "adTag.proto";
+
+
+enum RpcRecommendationStrat{
+  STRAT_UNSPECIFIED = 0;
+  WEIGHTED = 1;
+}
+
+message GetRecommendationRequest{
+  int64 count = 1;
+  RpcRecommendationStrat strat = 2;
+  repeated RpcAdTag tags = 3;
+}
+message GetRecommendation{
+  string id = 1;
+  string name = 2;
+  string adUrl = 3;
+}
+
+message GetRecommendationResponse{
+  repeated GetRecommendation recommendations = 1;
+}
+
+service GetRecommendationService{
+  rpc getRecommendation(GetRecommendationRequest) returns (GetRecommendationResponse);
+}

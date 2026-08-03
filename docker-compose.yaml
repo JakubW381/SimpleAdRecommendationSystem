@@ -1,5 +1,19 @@
 services:
 
+  #   ----- JAEGER -----
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: ad-jaeger
+    ports:
+      - "16686:16686"
+      - "16687:16687"
+      - "4317:4317"
+      - "4318:4318"
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+    networks:
+      - app_net
+
   #   ----- REDIS -----
   ad-redis:
     image: redis:8.10-alpine

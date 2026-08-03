@@ -1,6 +1,6 @@
 package dev.jakubw.adapter.in.rest;
 
-import dev.jakubw.adapter.in.rest.dto.AdUserDto;
+import dev.jakubw.adapter.in.dto.AdUserDto;
 import dev.jakubw.domain.model.AdUser;
 import dev.jakubw.domain.port.in.GetUserCmd;
 import lombok.RequiredArgsConstructor;

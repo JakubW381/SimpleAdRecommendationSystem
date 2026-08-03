@@ -15,6 +15,24 @@ spring:
     hibernate:
       ddl-auto: update
 
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+  opentelemetry:
+    resource-attributes:
+      service.name: ars-authenticator
+    tracing:
+      export:
+        otlp:
+          endpoint: http://localhost:4317
+          transport: grpc
+  otlp:
+    metrics:
+      export:
+        enabled: false
+
+
 jwk:
   rsa:
     public: ${ARS_RSA_PUBLIC_KEY}

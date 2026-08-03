@@ -3,10 +3,13 @@ package dev.jakubw.adapter.out.persistance.ad;
 import dev.jakubw.adapter.out.persistance.provider.AdProviderEntity;
 import dev.jakubw.adapter.out.persistance.provider.AdProviderPostgresRepository;
 import dev.jakubw.domain.model.Ad;
+import dev.jakubw.domain.model.AdStatus;
 import dev.jakubw.domain.port.out.ad.AdRepositoryPort;
+import dev.jakubw.domain.port.out.ad.model.AdRecommendationCandidate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -57,5 +60,10 @@ public class AdPostgresAdapter implements AdRepositoryPort {
                 entity.getStatus(),
                 entity.getTags()
         )).toList();
+    }
+
+    @Override
+    public List<AdRecommendationCandidate> getRecommendationCandidates() {
+        return adPostgresRepository.findRecommendationCandidates(AdStatus.ACTIVE, LocalDate.now());
     }
 }

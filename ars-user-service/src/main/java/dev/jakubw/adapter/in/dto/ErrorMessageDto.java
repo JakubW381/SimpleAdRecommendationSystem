@@ -1,4 +1,4 @@
-package dev.jakubw.adapter.in;
+package dev.jakubw.adapter.in.dto;
 
 import java.time.Instant;
 

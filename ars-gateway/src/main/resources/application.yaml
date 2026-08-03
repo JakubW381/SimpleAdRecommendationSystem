@@ -12,6 +12,23 @@ spring:
         jwt:
           jwk-set-uri: http://localhost:8083/.well-known/jwks.json
 
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+  opentelemetry:
+    resource-attributes:
+      service.name: ars-gateway
+    tracing:
+      export:
+        otlp:
+          endpoint: http://localhost:4317
+          transport: grpc
+  otlp:
+    metrics:
+      export:
+        enabled: false
+
 springdoc:
   swagger-ui:
     urls:

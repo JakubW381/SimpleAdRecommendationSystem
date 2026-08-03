@@ -18,6 +18,23 @@ spring:
     hibernate:
       ddl-auto: update
 
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+  opentelemetry:
+    resource-attributes:
+      service.name: ars-user-service
+    tracing:
+      export:
+        otlp:
+          endpoint: http://localhost:4317
+          transport: grpc
+  otlp:
+    metrics:
+      export:
+        enabled: false
+
   kafka:
     bootstrap-servers:
       - localhost:9092

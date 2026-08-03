@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+
+package dev.jakubw.grpc;
+
+option java_multiple_files = true;
+option java_package = "dev.jakubw.grpc";
+
+
+enum RpcAdTag {
+  AD_TAG_UNSPECIFIED = 0;
+  AUTOMOTIVE = 1;
+  REAL_ESTATE = 2;
+  ELECTRONICS = 3;
+  FASHION = 4;
+  HOME_GARDEN = 5;
+  SPORTS = 6;
+  HEALTH_BEAUTY = 7;
+  BOOKS_MEDIA = 8;
+  TOYS_GAMES = 9;
+  JOBS = 10;
+  SERVICES = 11;
+  EDUCATION = 12;
+  FOOD_DRINK = 13;
+  TRAVEL = 14;
+  PETS = 15;
+}

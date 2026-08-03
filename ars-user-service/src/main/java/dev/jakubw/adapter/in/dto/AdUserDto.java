@@ -1,4 +1,4 @@
-package dev.jakubw.adapter.in.rest.dto;
+package dev.jakubw.adapter.in.dto;
 
 import dev.jakubw.domain.model.AdTag;
 

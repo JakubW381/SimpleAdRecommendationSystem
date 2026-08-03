@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -47,4 +48,15 @@ public class AdEntity {
     @JdbcTypeCode(SqlTypes.ARRAY)
     @Column(name = "tags")
     private Set<AdTag> tags;
+
+    public void addImpression(LocalDate day, long count) {
+        AdImpressionEntity impression = new AdImpressionEntity();
+
+        impression.setId(UUID.randomUUID().toString());
+        impression.setDay(day);
+        impression.setCount(count);
+        impression.setAd(this);
+
+        impressions.add(impression);
+    }
 }
