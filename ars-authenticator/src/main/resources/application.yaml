@@ -15,6 +15,17 @@ spring:
     hibernate:
       ddl-auto: update
 
+resilience4j:
+  retry:
+    instances:
+      user-register:
+        max-attempts: 3
+        wait-duration: 500ms
+      provider-register:
+        max-attempts: 3
+        wait-duration: 500ms
+
+
 management:
   tracing:
     sampling:

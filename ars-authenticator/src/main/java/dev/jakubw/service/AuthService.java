@@ -9,6 +9,7 @@ import dev.jakubw.grpc.ProviderRegisterServiceGrpc.ProviderRegisterServiceBlocki
 import dev.jakubw.grpc.UserRegisterServiceGrpc.UserRegisterServiceBlockingStub;
 import dev.jakubw.model.AuthDetailsEntity;
 import dev.jakubw.repository.AuthDetailsRepository;
+import io.github.resilience4j.retry.annotation.Retry;
 import io.grpc.StatusRuntimeException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -38,6 +39,7 @@ public class AuthService {
         return jwtService.generateToken(userDetails);
     }
 
+    @Retry(name = "user-register")
     public String registerUser(UserSignUpRequest request){
         if(authUserDetailsRepository.existsByEmailOrUsername(request.email(), request.username())){
             throw new SignUpException("User with this username or email already exists.");
@@ -62,6 +64,7 @@ public class AuthService {
     }
 
 
+    @Retry(name = "provider-register")
     public String registerProvider(ProviderSignUpRequest request){
         if(authUserDetailsRepository.existsByEmailOrUsername(request.email(), request.username())){
             throw new SignUpException("Provider with this username or email already exists.");

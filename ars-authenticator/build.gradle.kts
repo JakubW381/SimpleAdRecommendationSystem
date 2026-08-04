@@ -20,6 +20,7 @@ dependencies {
     implementation("io.grpc:grpc-stub:1.82.2")
     implementation("io.grpc:grpc-protobuf:1.82.2")
 
+    implementation("io.github.resilience4j:resilience4j-spring-boot4:2.4.0")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.2")
     implementation("org.springframework.boot:spring-boot-starter-webmvc")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
