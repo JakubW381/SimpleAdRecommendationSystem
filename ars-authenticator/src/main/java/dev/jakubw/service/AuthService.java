@@ -64,7 +64,7 @@ public class AuthService {
     }
 
 
-    @Retry(name = "provider-register")
+//    @Retry(name = "provider-register")
     public String registerProvider(ProviderSignUpRequest request){
         if(authUserDetailsRepository.existsByEmailOrUsername(request.email(), request.username())){
             throw new SignUpException("Provider with this username or email already exists.");
@@ -78,7 +78,7 @@ public class AuthService {
                     .build();
             response = stubP.register(rpcRequest);
         }catch (StatusRuntimeException e){
-            throw new SignUpException("Could register: " + e.getMessage(), e);
+            throw new SignUpException("Couldn't register: " + e.getMessage(), e);
         }
 
         AuthDetailsEntity saved = userService.saveProvider(request,response.getId());

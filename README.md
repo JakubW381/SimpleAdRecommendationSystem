@@ -11,6 +11,8 @@
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-blue)
 ![OpenTelemetry](https://img.shields.io/badge/OpenTelemetry-Tracing-purple)
 ![Jaeger](https://img.shields.io/badge/Jaeger-Observability-yellow)
+![Prometheus](https://img.shields.io/badge/Prometheus-Metrics-e6522c)
+![Grafana](https://img.shields.io/badge/Grafana-Dashboards-F46800)
 
 </p>
 
@@ -28,14 +30,15 @@ The project focuses on modern backend architecture patterns and distributed syst
 * Redis caching
 * OpenTelemetry
 * Jaeger distributed tracing
+* Prometheus & Grafana observability
 * JWT authentication and authorization
 * Resilience4j Retry
 
 ---
 
-# Monitoring & Documentation
+# Monitoring & Observability
 
-## Jaeger
+## Jaeger (Distributed Tracing)
 
 All traces are available through Jaeger:
 
@@ -48,6 +51,43 @@ The project is instrumented with OpenTelemetry and traces:
 * HTTP requests
 * Gateway routing
 * gRPC communication
+
+---
+
+## Prometheus (Metrics Collection)
+
+Prometheus scrapes application and JVM metrics from all microservices via Spring Boot Actuator endpoints:
+
+```text
+http://localhost:9090
+```
+
+Prometheus is configured to collect metrics from:
+
+* `ars-gateway`
+* `ars-authenticator`
+* `ars-user-service`
+* `ars-ad-service`
+
+Scrape target endpoints across services:
+
+```text
+GET /actuator/prometheus
+```
+
+---
+
+## Grafana (Metrics Visualization)
+
+Pre-configured Grafana dashboards for system and application monitoring:
+
+```text
+http://localhost:3000
+```
+
+* **Default credentials:** `admin` / `admin`
+* **Datasource:** Prometheus (`http://prometheus:9090`)
+* **Dashboards:** JVM statistics, HTTP/gRPC throughput, response latencies, memory usage, and thread pools across all 4 microservices.
 
 ---
 
@@ -93,6 +133,7 @@ API Gateway responsible for routing and authentication propagation.
 * spring-boot-starter-security-oauth2-resource-server
 * springdoc-openapi-starter-webflux-ui
 * spring-boot-starter-actuator
+* micrometer-registry-prometheus
 * spring-boot-starter-opentelemetry
 
 ### Responsibilities
@@ -101,6 +142,7 @@ API Gateway responsible for routing and authentication propagation.
 * JWT validation
 * Security enforcement
 * User identity propagation
+* Gateway metric exposition
 
 ### Generated Headers
 
@@ -144,6 +186,7 @@ Authentication and authorization service built using a classic layered architect
 * spring-boot-starter-validation
 * nimbus-jose-jwt
 * spring-boot-starter-actuator
+* micrometer-registry-prometheus
 * spring-boot-starter-opentelemetry
 * lombok
 
@@ -161,7 +204,7 @@ Authentication and authorization service built using a classic layered architect
 ### Authentication
 
 | Method | Endpoint | Description |
-|----------|----------|----------|
+| --- | --- | --- |
 | POST | `/api/auth/user/register` | Register new user |
 | POST | `/api/auth/user/login` | User login |
 | POST | `/api/auth/provider/register` | Register new provider |
@@ -223,6 +266,7 @@ Architecture:
 * spring-boot-starter-data-jpa
 * springdoc-openapi-starter-webmvc-ui
 * spring-boot-starter-actuator
+* micrometer-registry-prometheus
 * spring-boot-starter-opentelemetry
 * lombok
 
@@ -237,7 +281,7 @@ Architecture:
 ### User API
 
 | Method | Endpoint | Description |
-|----------|----------|----------|
+| --- | --- | --- |
 | GET | `/api/user/{userId}` | Get user details |
 | GET | `/api/user/recommendation/{strategy}/{count}` | Generate recommendations |
 
@@ -278,6 +322,7 @@ Architecture:
 * spring-boot-starter-validation
 * springdoc-openapi-starter-webmvc-ui
 * spring-boot-starter-actuator
+* micrometer-registry-prometheus
 * spring-boot-starter-opentelemetry
 * lombok
 
@@ -293,7 +338,7 @@ Architecture:
 ### Advertisement API
 
 | Method | Endpoint | Description |
-|----------|----------|----------|
+| --- | --- | --- |
 | GET | `/api/ad/ads` | Get advertisements |
 | POST | `/api/ad/ads/add` | Create advertisement |
 | GET | `/api/ad/impressions/{adId}` | Get advertisement impressions |
@@ -392,13 +437,12 @@ Current event:
 ImpressionRegisterEvent
 ```
 
-### Jaeger
+### Observability Stack
 
-Centralized distributed tracing.
-
-### OpenTelemetry
-
-Trace collection across all services.
+* **Jaeger:** Centralized distributed tracing.
+* **OpenTelemetry:** Trace collection across all services.
+* **Prometheus:** Time-series metric aggregation via Actuator `/actuator/prometheus`.
+* **Grafana:** Visual dashboards for system performance, latency, and JVM state.
 
 ---
 
@@ -410,6 +454,7 @@ root
 ├── ars-authenticator
 ├── ars-user-service
 ├── ars-ad-service
+├── prometheus.yml
 └── docker-compose.yml
 ```
 
@@ -428,7 +473,9 @@ This starts:
 * PostgreSQL instances
 * Redis
 * Kafka cluster
-* Jaeger
+* Jaeger (`http://localhost:16686`)
+* Prometheus (`http://localhost:9090`)
+* Grafana (`http://localhost:3000`)
 
 ## Start Services
 
@@ -451,7 +498,7 @@ ars-ad-service
 * Campaign analytics
 * Circuit Breaker integration
 * Role-based authorization improvements
-* Dashboard and metrics visualization
+* Centralized logging pipeline (Grafana Loki)
 
 ---
 
@@ -469,6 +516,7 @@ The goal of this project is to demonstrate practical usage of:
 * gRPC
 * OpenTelemetry
 * Jaeger
+* Prometheus & Grafana
 * JWT Authentication
 * Resilience Patterns
 * Clean Architecture
