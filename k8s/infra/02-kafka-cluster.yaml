@@ -1,0 +1,185 @@
+# --- KAFKA BROKER 1 ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ad-kafka-broker1
+  namespace: infra
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ad-kafka-broker1
+  template:
+    metadata:
+      labels:
+        app: ad-kafka-broker1
+    spec:
+      containers:
+        - name: kafka
+          image: apache/kafka:latest
+          env:
+            - name: KAFKA_NODE_ID
+              value: "1"
+            - name: KAFKA_PROCESS_ROLES
+              value: "broker,controller"
+            - name: KAFKA_CONTROLLER_QUORUM_VOTERS
+              value: "1@ad-kafka-broker1:9091,2@ad-kafka-broker2:9091,3@ad-kafka-broker3:9091"
+            - name: KAFKA_LISTENERS
+              value: "PLAINTEXT://0.0.0.0:9090,CONTROLLER://0.0.0.0:9091,EXTERNAL://0.0.0.0:9092"
+            - name: KAFKA_ADVERTISED_LISTENERS
+              value: "PLAINTEXT://ad-kafka-broker1:9090,EXTERNAL://localhost:9092"
+            - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
+              value: "PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT"
+            - name: KAFKA_CONTROLLER_LISTENER_NAMES
+              value: "CONTROLLER"
+            - name: KAFKA_INTER_BROKER_LISTENER_NAME
+              value: "PLAINTEXT"
+            - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
+              value: "3"
+          ports:
+            - containerPort: 9090
+            - containerPort: 9091
+            - containerPort: 9092
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ad-kafka-broker1
+  namespace: infra
+spec:
+  selector:
+    app: ad-kafka-broker1
+  ports:
+    - name: internal
+      port: 9090
+      targetPort: 9090
+    - name: controller
+      port: 9091
+      targetPort: 9091
+    - name: external
+      port: 9092
+      targetPort: 9092
+---
+# --- KAFKA BROKER 2 ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ad-kafka-broker2
+  namespace: infra
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ad-kafka-broker2
+  template:
+    metadata:
+      labels:
+        app: ad-kafka-broker2
+    spec:
+      containers:
+        - name: kafka
+          image: apache/kafka:latest
+          env:
+            - name: KAFKA_NODE_ID
+              value: "2"
+            - name: KAFKA_PROCESS_ROLES
+              value: "broker,controller"
+            - name: KAFKA_CONTROLLER_QUORUM_VOTERS
+              value: "1@ad-kafka-broker1:9091,2@ad-kafka-broker2:9091,3@ad-kafka-broker3:9091"
+            - name: KAFKA_LISTENERS
+              value: "PLAINTEXT://0.0.0.0:9090,CONTROLLER://0.0.0.0:9091,EXTERNAL://0.0.0.0:9094"
+            - name: KAFKA_ADVERTISED_LISTENERS
+              value: "PLAINTEXT://ad-kafka-broker2:9090,EXTERNAL://localhost:9094"
+            - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
+              value: "PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT"
+            - name: KAFKA_CONTROLLER_LISTENER_NAMES
+              value: "CONTROLLER"
+            - name: KAFKA_INTER_BROKER_LISTENER_NAME
+              value: "PLAINTEXT"
+            - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
+              value: "3"
+          ports:
+            - containerPort: 9090
+            - containerPort: 9091
+            - containerPort: 9094
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ad-kafka-broker2
+  namespace: infra
+spec:
+  selector:
+    app: ad-kafka-broker2
+  ports:
+    - name: internal
+      port: 9090
+      targetPort: 9090
+    - name: controller
+      port: 9091
+      targetPort: 9091
+    - name: external
+      port: 9094
+      targetPort: 9094
+---
+# --- KAFKA BROKER 3 ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ad-kafka-broker3
+  namespace: infra
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ad-kafka-broker3
+  template:
+    metadata:
+      labels:
+        app: ad-kafka-broker3
+    spec:
+      containers:
+        - name: kafka
+          image: apache/kafka:latest
+          env:
+            - name: KAFKA_NODE_ID
+              value: "3"
+            - name: KAFKA_PROCESS_ROLES
+              value: "broker,controller"
+            - name: KAFKA_CONTROLLER_QUORUM_VOTERS
+              value: "1@ad-kafka-broker1:9091,2@ad-kafka-broker2:9091,3@ad-kafka-broker3:9091"
+            - name: KAFKA_LISTENERS
+              value: "PLAINTEXT://0.0.0.0:9090,CONTROLLER://0.0.0.0:9091,EXTERNAL://0.0.0.0:9096"
+            - name: KAFKA_ADVERTISED_LISTENERS
+              value: "PLAINTEXT://ad-kafka-broker3:9090,EXTERNAL://localhost:9096"
+            - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
+              value: "PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT"
+            - name: KAFKA_CONTROLLER_LISTENER_NAMES
+              value: "CONTROLLER"
+            - name: KAFKA_INTER_BROKER_LISTENER_NAME
+              value: "PLAINTEXT"
+            - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
+              value: "3"
+          ports:
+            - containerPort: 9090
+            - containerPort: 9091
+            - containerPort: 9096
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ad-kafka-broker3
+  namespace: infra
+spec:
+  selector:
+    app: ad-kafka-broker3
+  ports:
+    - name: internal
+      port: 9090
+      targetPort: 9090
+    - name: controller
+      port: 9091
+      targetPort: 9091
+    - name: external
+      port: 9096
+      targetPort: 9096

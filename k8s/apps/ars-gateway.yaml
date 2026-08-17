@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ars-gateway
+  namespace: apps
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ars-gateway
+  template:
+    metadata:
+      labels:
+        app: ars-gateway
+    spec:
+      containers:
+        - name: ars-gateway
+          image: ars-gateway:v1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+          envFrom:
+            - secretRef:
+                name: ars-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ars-gateway
+  namespace: apps
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: 8080
+      name: http
+  selector:
+    app: ars-gateway

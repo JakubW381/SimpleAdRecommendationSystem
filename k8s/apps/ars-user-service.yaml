@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ars-user-service
+  namespace: apps
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ars-user-service
+  template:
+    metadata:
+      labels:
+        app: ars-user-service
+    spec:
+      containers:
+        - name: ars-user-service
+          image: ars-user-service:v1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8082
+            - name: grpc
+              containerPort: 9082
+          envFrom:
+            - secretRef:
+                name: ars-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ars-user-service
+  namespace: apps
+spec:
+  selector:
+    app: ars-user-service
+  ports:
+    - name: http
+      port: 8082
+      targetPort: 8082
+    - name: grpc
+      port: 9082
+      targetPort: 9082

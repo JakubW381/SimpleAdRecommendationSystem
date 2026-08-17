@@ -44,7 +44,7 @@ public class AdUserEntity implements Persistable<String> {
 
     @PostLoad
     @PrePersist
-    public void presist(){
-
+    public void persist(){
+        this.isNew = false;
     }
 }

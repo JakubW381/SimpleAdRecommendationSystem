@@ -1,0 +1,17 @@
+data/
+.gradle/
+build/
+**/build/
+/out/
+
+.env
+*.env
+envs/
+
+.git/
+.gitignore
+.idea/
+.vscode/
+*.iml
+
+*.log

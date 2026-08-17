@@ -1,0 +1,156 @@
+# --- REDIS ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ad-redis
+  namespace: infra
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ad-redis
+  template:
+    metadata:
+      labels:
+        app: ad-redis
+    spec:
+      containers:
+        - name: redis
+          image: redis:8.10-alpine
+          ports:
+            - containerPort: 6379
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ad-redis
+  namespace: infra
+spec:
+  selector:
+    app: ad-redis
+  ports:
+    - port: 6379
+      targetPort: 6379
+---
+# --- AD POSTGRES ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ad-postgres
+  namespace: infra
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ad-postgres
+  template:
+    metadata:
+      labels:
+        app: ad-postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:17.0-alpine
+          env:
+            - name: POSTGRES_DB
+              value: ad-database
+            - name: POSTGRES_USER
+              value: admin
+            - name: POSTGRES_PASSWORD
+              value: admin
+          ports:
+            - containerPort: 5432
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ad-postgres
+  namespace: infra
+spec:
+  selector:
+    app: ad-postgres
+  ports:
+    - port: 5432
+      targetPort: 5432
+---
+# --- USER POSTGRES ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-postgres
+  namespace: infra
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-postgres
+  template:
+    metadata:
+      labels:
+        app: user-postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:17.0-alpine
+          env:
+            - name: POSTGRES_DB
+              value: user-database
+            - name: POSTGRES_USER
+              value: admin
+            - name: POSTGRES_PASSWORD
+              value: admin
+          ports:
+            - containerPort: 5432
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-postgres
+  namespace: infra
+spec:
+  selector:
+    app: user-postgres
+  ports:
+    - port: 5432
+      targetPort: 5432
+---
+# --- AUTH POSTGRES ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-postgres
+  namespace: infra
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-postgres
+  template:
+    metadata:
+      labels:
+        app: auth-postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:17.0-alpine
+          env:
+            - name: POSTGRES_DB
+              value: auth-database
+            - name: POSTGRES_USER
+              value: admin
+            - name: POSTGRES_PASSWORD
+              value: admin
+          ports:
+            - containerPort: 5432
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-postgres
+  namespace: infra
+spec:
+  selector:
+    app: auth-postgres
+  ports:
+    - port: 5432
+      targetPort: 5432

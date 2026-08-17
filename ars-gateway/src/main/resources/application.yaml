@@ -5,12 +5,21 @@ logging:
   level:
     org.springframework.security: TRACE
     org.springframework.security.oauth2: TRACE
+
+services:
+  ad-service:
+    uri: ${AD_SERVICE_URI:http://localhost:8081}
+  user-service:
+    uri: ${USER_SERVICE_URI:http://localhost:8082}
+  auth-service:
+    uri: ${AUTH_SERVICE_URI:http://localhost:8083}
+
 spring:
   security:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: http://localhost:8083/.well-known/jwks.json
+          jwk-set-uri: ${AUTH_SERVICE_JWKS_URI:http://localhost:8083/.well-known/jwks.json}
 
 management:
   endpoints:
@@ -28,7 +37,7 @@ management:
     tracing:
       export:
         otlp:
-          endpoint: http://localhost:4317
+          endpoint: ${OTLP_ENDPOINT:http://localhost:4317}
           transport: grpc
   otlp:
     metrics:

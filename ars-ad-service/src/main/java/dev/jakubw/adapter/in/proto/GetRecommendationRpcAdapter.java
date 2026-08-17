@@ -1,6 +1,6 @@
 package dev.jakubw.adapter.in.proto;
 
-import dev.jakubw.conifg.exception.RecommendationException;
+import dev.jakubw.config.exception.RecommendationException;
 import dev.jakubw.domain.model.AdTag;
 import dev.jakubw.domain.port.in.ad.GetRecommendedAdsQry;
 import dev.jakubw.domain.port.out.ad.model.AdRecommendationCandidate;

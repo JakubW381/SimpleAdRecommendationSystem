@@ -7,9 +7,9 @@ spring:
     server:
       port: 9082
   datasource:
-    url: jdbc:postgresql://localhost:5433/user-database
-    username: admin
-    password: admin
+    url: ${USER_DATASOURCE_URL:jdbc:postgresql://localhost:5433/user-database}
+    username: ${USER_DATASOURCE_USERNAME:admin}
+    password: ${USER_DATASOURCE_PASSWORD:admin}
   jpa:
     properties:
       hibernate:
@@ -34,7 +34,7 @@ management:
     tracing:
       export:
         otlp:
-          endpoint: http://localhost:4317
+          endpoint: ${OTLP_ENDPOINT:http://localhost:4317}
           transport: grpc
   otlp:
     metrics:

@@ -1,7 +1,7 @@
 package dev.jakubw.adapter.in.proto;
 
 
-import dev.jakubw.conifg.exception.SignUpException;
+import dev.jakubw.config.exception.SignUpException;
 import dev.jakubw.domain.port.in.provider.RegisterAdProviderCmd;
 import dev.jakubw.grpc.ProviderRegisterRpcRequest;
 import dev.jakubw.grpc.ProviderRegisterRpcResponse;

@@ -9,11 +9,11 @@ spring:
   data:
     redis:
       port: 6379
-      host: localhost
+      host: ${REDIS_HOST:localhost}
   datasource:
-    url: jdbc:postgresql://localhost:5432/ad-database
-    username: admin
-    password: admin
+    url: ${AD_DATASOURCE_URL:jdbc:postgresql://localhost:5432/ad-database}
+    username: ${AD_DATASOURCE_USERNAME:admin}
+    password: ${AD_DATASOURCE_PASSWORD:admin}
   jpa:
     properties:
       hibernate:
@@ -21,6 +21,16 @@ spring:
         show_sql: true
     hibernate:
       ddl-auto: update
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092,localhost:9094,localhost:9096}
+    consumer:
+      group-id: ad-service-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "dev.jakubw.adapter.in.messaging.events"
 
 management:
   endpoints:
@@ -38,24 +48,9 @@ management:
     tracing:
       export:
         otlp:
-          endpoint: http://localhost:4317
+          endpoint: ${OTLP_ENDPOINT:http://localhost:4317}
           transport: grpc
   otlp:
     metrics:
       export:
         enabled: false
-
-
-
-  kafka:
-    bootstrap-servers:
-      - localhost:9092
-      - localhost:9094
-      - localhost:9096
-    consumer:
-      group-id: ad-service-group
-      auto-offset-reset: earliest
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-      properties:
-        spring.json.trusted.packages: "dev.jakubw.adapter.in.messaging.events"

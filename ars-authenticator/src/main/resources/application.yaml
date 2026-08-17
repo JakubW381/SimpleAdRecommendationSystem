@@ -4,9 +4,9 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5434/auth-database
-    username: admin
-    password: admin
+    url: ${AUTH_DATASOURCE_URL:jdbc:postgresql://localhost:5434/auth-database}
+    username: ${AUTH_DATASOURCE_USERNAME:admin}
+    password: ${AUTH_DATASOURCE_PASSWORD:admin}
   jpa:
     properties:
       hibernate:
@@ -25,7 +25,6 @@ resilience4j:
         max-attempts: 3
         wait-duration: 500ms
 
-
 management:
   endpoints:
     web:
@@ -42,13 +41,12 @@ management:
     tracing:
       export:
         otlp:
-          endpoint: http://localhost:4317
+          endpoint: ${OTLP_ENDPOINT:http://localhost:4317}
           transport: grpc
   otlp:
     metrics:
       export:
         enabled: false
-
 
 jwk:
   rsa:

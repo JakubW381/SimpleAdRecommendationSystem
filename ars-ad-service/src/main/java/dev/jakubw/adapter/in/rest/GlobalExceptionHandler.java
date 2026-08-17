@@ -1,7 +1,7 @@
 package dev.jakubw.adapter.in.rest;
 
 import dev.jakubw.adapter.in.ErrorMessageDto;
-import dev.jakubw.conifg.exception.SignUpException;
+import dev.jakubw.config.exception.SignUpException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

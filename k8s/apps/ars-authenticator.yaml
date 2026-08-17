@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ars-authenticator
+  namespace: apps
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ars-authenticator
+  template:
+    metadata:
+      labels:
+        app: ars-authenticator
+    spec:
+      containers:
+        - name: ars-authenticator
+          image: ars-authenticator:v1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8083
+          envFrom:
+            - secretRef:
+                name: ars-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ars-authenticator
+  namespace: apps
+spec:
+  selector:
+    app: ars-authenticator
+  ports:
+    - name: http
+      port: 8083
+      targetPort: 8083
