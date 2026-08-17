@@ -44,3 +44,4 @@ bin/
 ars-secret.env
 *.env
 /data
+kubectl
