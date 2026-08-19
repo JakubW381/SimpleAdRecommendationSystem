@@ -1,5 +1,7 @@
 package dev.jakubw.filter;
 
+import jakarta.validation.constraints.NotNull;
+import org.jspecify.annotations.NullMarked;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -16,6 +18,7 @@ import java.util.Collection;
 public class JwtClaimsHeaderFilter implements GatewayFilter {
 
     @Override
+    @NullMarked
     public Mono<Void> filter(ServerWebExchange exchange,
                              GatewayFilterChain chain) {
 

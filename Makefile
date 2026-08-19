@@ -6,7 +6,7 @@ RESET  := \033[0m
 .PHONY: cluster-up cluster-down build-images import-images secrets deploy-infra deploy-apps all status forward
 
 all: cluster-up secrets build-images import-images deploy-infra deploy-apps forward status
-
+deploy: cluster-up secrets import-images deploy-infra deploy-apps forward status
 cluster-up:
 	@echo -e "$(CYAN)============> [1/7] Creating k3d ars-cluster...$(RESET)"
 	@k3d cluster create ars-cluster -p "8000:80@loadbalancer" || true
@@ -16,6 +16,7 @@ cluster-up:
 secrets:
 	@echo -e "$(CYAN)============> [2/7] Creating cluster secrets .env...$(RESET)"
 	@kubectl create secret generic ars-secret --namespace=apps --from-env-file=ars-secret.env --dry-run=client -o yaml | kubectl apply -f -
+	@kubectl create secret generic ars-secret --namespace=infra --from-env-file=ars-secret.env --dry-run=client -o yaml | kubectl apply -f -
 
 build-images:
 	@echo -e "$(CYAN)============> [3/7] Building docker images...$(RESET)"
@@ -36,7 +37,7 @@ deploy-infra:
 	@echo -e "$(CYAN)============> [5/7] Deploying infrastructure...$(RESET)"
 	kubectl apply -f k8s/infra/ -R
 	@echo "Waiting for infrastructure pods to be ready..."
-	kubectl wait --for=condition=ready pod --all -n infra --timeout=300s
+	kubectl wait --for=condition=ready pod --all -n infra --timeout=500s
 
 deploy-apps:
 	@echo -e "$(CYAN)============> [6/7] Deploying microservices...$(RESET)"
@@ -50,7 +51,7 @@ status:
 	kubectl get pods -n apps
 
 forward:
-	@echo -e "$(CYAN)============> [7/7] Forwarding ports to localhost..."
+	@echo -e "$(CYAN)============> [7/7] Forwarding ports to localhost...$(RESET)"
 	@kubectl port-forward svc/ars-gateway 8080:8080 -n apps > /dev/null 2>&1 &
 	@kubectl port-forward svc/grafana 3000:3000 -n infra > /dev/null 2>&1 &
 	@kubectl port-forward svc/prometheus 9090:9090 -n infra > /dev/null 2>&1 &

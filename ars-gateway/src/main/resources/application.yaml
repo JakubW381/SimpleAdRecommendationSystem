@@ -28,6 +28,10 @@ management:
         include:
           - health
           - prometheus
+          - info
+  metrics:
+    tags:
+      application: gateway
   tracing:
     sampling:
       probability: 1.0
@@ -43,6 +47,10 @@ management:
     metrics:
       export:
         enabled: false
+prometheus:
+  auth:
+    username: ${PROMETHEUS_USERNAME}
+    password: ${PROMETHEUS_PASSWORD}
 
 springdoc:
   swagger-ui:

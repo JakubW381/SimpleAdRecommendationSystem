@@ -32,6 +32,10 @@ management:
         include:
           - health
           - prometheus
+          - info
+  metrics:
+    tags:
+      application: authenticator
   tracing:
     sampling:
       probability: 1.0

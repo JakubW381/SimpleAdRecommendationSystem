@@ -19,5 +19,8 @@ scrape_configs:
 
   - job_name: 'gateway'
     metrics_path: '/actuator/prometheus'
+    basic_auth:
+      username: 'prometheus'
+      password: 'prometheus'
     static_configs:
       - targets: ['host.docker.internal:8080']

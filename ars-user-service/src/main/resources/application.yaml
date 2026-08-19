@@ -25,6 +25,10 @@ management:
         include:
           - health
           - prometheus
+          - info
+  metrics:
+    tags:
+      application: user-service
   tracing:
     sampling:
       probability: 1.0
